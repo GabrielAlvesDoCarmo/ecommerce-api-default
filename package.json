@@ -1,12 +1,12 @@
 {
   "name": "ecommerce-api-default",
   "version": "1.0.0",
-  "description": "",
+  "description": "Api base de um ecommerce",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Gabriel Alves do Carmo",
   "license": "ISC"
 }
