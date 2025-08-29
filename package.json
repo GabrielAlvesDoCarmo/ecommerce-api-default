@@ -4,7 +4,8 @@
   "description": "Api base de um ecommerce",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc-watch --onSuccess \"node ./lib/index.js\""
   },
   "keywords": [],
   "author": "Gabriel Alves do Carmo",
@@ -16,6 +17,7 @@
     "@tsconfig/recommended": "^1.0.10",
     "@types/express": "^5.0.3",
     "@types/node": "^24.3.0",
+    "tsc-watch": "^7.1.1",
     "typescript": "^5.9.2"
   }
 }

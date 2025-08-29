@@ -1,0 +1,18 @@
+### GET request to example server
+GET http://localhost:3000
+
+###Get Users
+GET localhost:3000/users
+
+###GEt user by id
+GET localhost:3000/users/1
+
+### POST REQUEST USER
+POST localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "MAriana",
+  "email": "lalalalla@lalalal.com"
+}
+###
