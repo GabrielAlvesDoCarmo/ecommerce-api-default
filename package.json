@@ -8,5 +8,8 @@
   },
   "keywords": [],
   "author": "Gabriel Alves do Carmo",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
