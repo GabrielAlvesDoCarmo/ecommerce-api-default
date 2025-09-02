@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc-watch --onSuccess \"node ./lib/index.js\""
+    "start": "tsc-watch --onSuccess \"node --env-file=.env ./lib/index.js\""
   },
   "keywords": [],
   "author": "Gabriel Alves do Carmo",
