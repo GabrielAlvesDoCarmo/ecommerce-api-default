@@ -45,4 +45,13 @@ app.put("/users/:id", (req: express.Request, res: express.Response) => {
     })
 })
 
+app.delete("/users/:id", (req: express.Request, res: express.Response) => {
+    let userID = Number(req.params.id)
+    let indexOf = usuarios.findIndex(user => user.id === userID)
+    usuarios.splice(indexOf, 1)
+    res.send({
+        message: "Usuario deletado"
+    })
+})
+
 app.listen(3000, () => console.log("Server started on port 3000"));
