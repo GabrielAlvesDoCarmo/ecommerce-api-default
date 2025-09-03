@@ -5,7 +5,7 @@ GET http://localhost:3000
 GET localhost:3000/users
 
 ### User by ID
-GET localhost:3000/users/1
+GET localhost:3000/users/1DFCDUakIKUSCQi9eSJN
 
 ### CREATE USER
 POST localhost:3000/users
@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ### Change User
-PUT localhost:3000/users/2
+PUT localhost:3000/users/xkywFxuLk1wkT4UyiQTl
 Content-Type: application/json
 
 {
@@ -26,6 +26,8 @@ Content-Type: application/json
 }
 
 ### DELETE USER
-DELETE localhost:3000/users/offcbS6PQgfSqmVZGduk
+DELETE localhost:3000/users/1DFCDUakIKUSCQi9eSJN
 
+### DELETE ALL
+DELETE localhost:3000/users/0123456789
 ###
