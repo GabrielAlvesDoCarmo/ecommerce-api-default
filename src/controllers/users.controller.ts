@@ -1,48 +1,29 @@
 import express from "express";
-import {getFirestore} from "firebase-admin/firestore";
-import {ValidationError} from "../errors/validation.error";
-import {NotFoundError} from "../errors/not-found.error";
 import {User} from "../models/user.model";
+import {UserServices} from "../services/user.services";
 
 export class UsersController {
     static async getAll(
         req: express.Request,
         res: express.Response,
     ) {
-        const snapshot = await getFirestore().collection("users").get()
-        const users = snapshot.docs.map((doc) => {
-            return {
-                id: doc.id,
-                ...doc.data()
-            }
-        })
-        res.status(200).send(users)
+        res.status(200).send(await new UserServices().getAll())
     }
 
     static async getById(
         req: express.Request,
         res: express.Response,
     ) {
-        let userID = req.params.id
-        const doc = await getFirestore().collection("users").doc(userID).get()
-        if (doc.exists) {
-            res.status(200).send({
-                id: doc.id,
-                ...doc.data()
-            });
-        } else {
-            throw new NotFoundError("Usuario não encontrado")
-        }
+        res.status(200).send(await new UserServices().getByID(req.params.id))
     }
 
     static async save(
         req: express.Request,
         res: express.Response,
     ) {
-        let reqUsers = req.body as User
-        const userSave = await getFirestore().collection("users").add(reqUsers)
+        await new UserServices().save(req.body as User)
         res.status(201).send({
-            message: `Usuario adicionado com sucesso ID: ${userSave.id}`
+            message: "Usuario criado com sucesso"
         })
     }
 
@@ -50,42 +31,17 @@ export class UsersController {
         req: express.Request,
         res: express.Response,
     ) {
-        let userID = req.params.id
-        let userChange = req.body as User
-        let docRef = getFirestore().collection("users").doc(userID)
-        if ((await docRef.get()).exists) {
-            if (!userChange.email || userChange.email?.length === 0) {
-                throw new ValidationError("Email obrigatorio")
-            }
-            if (!userChange.name || userChange.name?.length === 0) {
-                throw new ValidationError("Nome obrigatorio")
-            }
-            await docRef.set({
-                name: userChange.name,
-                email: userChange.email
-            })
-            res.status(200).send({
-                message: "Usuario alterado com sucesso"
-            })
-        } else {
-            throw new NotFoundError("Usuario não encontrado")
-        }
+        await new UserServices().update(req.params.id, req.body as User)
+        res.status(200).send({
+            message: "Usuario alterado com sucesso"
+        })
     }
 
     static async delete(
         req: express.Request,
         res: express.Response,
     ) {
-        let userID = req.params.id
-        if (userID != "0123456789") {
-            await getFirestore().collection("users").doc(userID).delete()
-            res.status(204).end()
-        } else {
-            let promise = await getFirestore().collection("users").get();
-            promise.docs.map((doc) => {
-                doc.ref.delete()
-            })
-            res.status(204).end()
-        }
+        await new UserServices().delete(req.params.id)
+        res.status(204).end()
     }
 }
