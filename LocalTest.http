@@ -26,6 +26,6 @@ Content-Type: application/json
 }
 
 ###
-DELETE localhost:3000/users/1
+DELETE localhost:3000/users/VF7i6WwoIHS4ipUx4BTf
 
 ###

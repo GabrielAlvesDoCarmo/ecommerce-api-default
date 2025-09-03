@@ -1,8 +1,8 @@
 import express from "express";
-import { initializeApp } from "firebase-admin";
+import * as firebase from "firebase-admin"
 import { router } from "./routes";
 
-initializeApp();
+firebase.initializeApp();
 const app = express();
 
 router(app)
