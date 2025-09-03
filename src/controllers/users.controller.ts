@@ -28,7 +28,7 @@ export class UsersController {
     ) {
         let userID = req.params.id
         const doc = await getFirestore().collection("users").doc(userID).get()
-        res.send({
+        res.status(200).send({
             id: doc.id,
             ...doc.data()
         });
@@ -40,7 +40,7 @@ export class UsersController {
     ) {
         let reqUsers = req.body
         const userSave = await getFirestore().collection("users").add(reqUsers)
-        res.send({
+        res.status(201).send({
             message: `Usuario adicionado com sucesso ID: ${userSave.id}`
         })
     }
@@ -52,7 +52,7 @@ export class UsersController {
             name: userChange.name,
             email: userChange.email
         })
-        res.send({
+        res.status(200).send({
             message: "Usuario alterado com sucesso"
         })
     }
@@ -60,8 +60,6 @@ export class UsersController {
     static async delete(req: express.Request, res: express.Response) {
         let userID = req.params.id
         await getFirestore().collection("users").doc(userID).delete()
-        res.send({
-            message: "Usuario deletado"
-        })
+        res.status(204).end()
     }
 }
