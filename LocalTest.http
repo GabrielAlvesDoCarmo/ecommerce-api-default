@@ -1,22 +1,22 @@
 ### GET request to example server
 GET http://localhost:3000
 
-###Get Users
+### All Users
 GET localhost:3000/users
 
-###GEt user by id
+### User by ID
 GET localhost:3000/users/1
 
-### POST CREATE USER
+### CREATE USER
 POST localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "MAriana",
+  "name": "ASrthur",
   "email": "lalalalla@lalalal.com"
 }
 
-### PUT Change ,User
+### Change User
 PUT localhost:3000/users/2
 Content-Type: application/json
 
@@ -25,7 +25,7 @@ Content-Type: application/json
   "email": "Emaildamari@allala.com"
 }
 
-###
+### DELETE USER
 DELETE localhost:3000/users/offcbS6PQgfSqmVZGduk
 
 ###

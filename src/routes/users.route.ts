@@ -1,10 +1,10 @@
 import express from "express";
 import { UsersController } from "../controllers/users.controller"
-
+import asyncHandler from 'express-async-handler'
 export const userRouter = express.Router()
 
-userRouter.get("/users", UsersController.getAll)
-userRouter.get("/users/:id", UsersController.getById)
-userRouter.post("/users", UsersController.save)
-userRouter.put("/users/:id", UsersController.update)
-userRouter.delete("/users/:id", UsersController.delete)
+userRouter.get("/users", asyncHandler(UsersController.getAll))
+userRouter.get("/users/:id", asyncHandler(UsersController.getById))
+userRouter.post("/users", asyncHandler(UsersController.save))
+userRouter.put("/users/:id", asyncHandler(UsersController.update))
+userRouter.delete("/users/:id", asyncHandler(UsersController.delete))
