@@ -3,3 +3,4 @@
 /node_modules
 firebase-admin-sdk.json
 .env
+LocalTest.http
