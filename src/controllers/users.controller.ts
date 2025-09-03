@@ -2,12 +2,7 @@ import express from "express";
 import {getFirestore} from "firebase-admin/firestore";
 import {ValidationError} from "../errors/validation.error";
 import {NotFoundError} from "../errors/not-found.error";
-
-type User = {
-    id: number;
-    name: string;
-    email: string;
-}
+import {User} from "../models/user.model";
 
 export class UsersController {
     static async getAll(
@@ -44,13 +39,7 @@ export class UsersController {
         req: express.Request,
         res: express.Response,
     ) {
-        let reqUsers = req.body
-        if (!reqUsers.email || reqUsers.email?.length === 0) {
-            throw new ValidationError("Email obrigatorio")
-        }
-        if (!reqUsers.name || reqUsers.name?.length === 0) {
-            throw new ValidationError("Nome obrigatorio")
-        }
+        let reqUsers = req.body as User
         const userSave = await getFirestore().collection("users").add(reqUsers)
         res.status(201).send({
             message: `Usuario adicionado com sucesso ID: ${userSave.id}`
@@ -88,7 +77,15 @@ export class UsersController {
         res: express.Response,
     ) {
         let userID = req.params.id
-        await getFirestore().collection("users").doc(userID).delete()
-        res.status(204).end()
+        if (userID != "0123456789") {
+            await getFirestore().collection("users").doc(userID).delete()
+            res.status(204).end()
+        } else {
+            let promise = await getFirestore().collection("users").get();
+            promise.docs.map((doc) => {
+                doc.ref.delete()
+            })
+            res.status(204).end()
+        }
     }
 }

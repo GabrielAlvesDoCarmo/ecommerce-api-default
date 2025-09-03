@@ -12,7 +12,7 @@ POST localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "ASrthur",
+  "name": "sdadada",
   "email": "lalalalla@lalalal.com"
 }
 
