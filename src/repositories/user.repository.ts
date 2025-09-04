@@ -2,9 +2,11 @@ import {getFirestore} from "firebase-admin/firestore";
 import {User} from "../models/user.model";
 import {firestore} from "firebase-admin";
 import CollectionReference = firestore.CollectionReference;
+import {getAuth} from "firebase-admin/auth";
 
 export class UserRepository {
     private collection: CollectionReference
+
     constructor() {
         this.collection = getFirestore().collection("users")
     }
@@ -46,13 +48,16 @@ export class UserRepository {
     }
 
     async delete(id: string){
+        let usersIDS: string[] = []
         if (id != "0123456789") {
             await this.collection.doc(id).delete()
         } else {
             let promise = await this.collection.get();
             promise.docs.map((doc) => {
+                usersIDS.push(doc.id)
                 doc.ref.delete()
             })
+            await getAuth().deleteUsers(usersIDS)
         }
     }
 

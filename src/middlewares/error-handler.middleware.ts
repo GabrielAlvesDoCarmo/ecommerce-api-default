@@ -1,17 +1,15 @@
 import express from "express";
-import {ValidationError} from "../errors/validation.error";
 import {InternalServerError} from "../errors/internal-server.error";
-import {NotFoundError} from "../errors/not-found.error";
 import {errors} from "celebrate";
+import {ErrorBase} from "../errors/base.error";
 
 export const errorHandler = (app: express.Express) => {
     app.use(errors())
-    app.use((err: Error, req: express.Request, res: express.Response) => {
-        if(err instanceof ValidationError) {
+    app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+        console.log(err)
+        if(err instanceof ErrorBase) {
             err.send(res)
-        }else if (err instanceof NotFoundError){
-            err.send(res)
-        } else {
+        }else {
             new InternalServerError()
         }
 
