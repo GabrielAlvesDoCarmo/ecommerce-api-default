@@ -1,13 +1,16 @@
 import {User} from "../models/user.model";
 import {UserRepository} from "../repositories/user.repository";
 import {NotFoundError} from "../errors/not-found.error";
+import {AuthService} from "./auth.service";
 
 export class UserServices {
     // aqui fica a regra de negocio e lanca a exceção o repository so comunica
     private userRepository: UserRepository
+    private authService: AuthService
 
     constructor() {
         this.userRepository = new UserRepository()
+        this.authService = new AuthService()
     }
 
     async getAll(): Promise<User[]> {
@@ -24,6 +27,8 @@ export class UserServices {
     }
 
     async save(user: User) {
+        const userAuth =await this.authService.create(user)
+        user.id = userAuth.uid
         return this.userRepository.save(user)
     }
 
