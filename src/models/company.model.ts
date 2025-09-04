@@ -2,7 +2,7 @@ import {Joi} from "celebrate";
 
 export type Company = {
     id: string
-    logo?: string
+    logo: string
     cpfCnpj: string
     razaoSocial: string
     nomeFantasia?: string
@@ -10,19 +10,38 @@ export type Company = {
     horarioFuncionamento: string
     endereco: string
     localizacao: string
-    taxaEntrega?: string
+    taxaEntrega: string
     ativa: boolean
 }
 
 export const newCompanySchema = Joi.object().keys({
-    logo: Joi.string(),
-    cpfCnpj: Joi.string().required(),
+    logo: Joi.string().allow(null),
+    cpfCnpj: Joi.alternatives().try(
+        Joi.string().length(14).required(),
+        Joi.string().length(11).required()
+    ),
     razaoSocial: Joi.string().required(),
     nomeFantasia: Joi.string(),
-    telefone: Joi.string().required(),
+    telefone: Joi.string().regex(/^(?:[1-9]{2}9\d{8}|[1-9]{2}[2-9]\d{7})$/).required(),
     horarioFuncionamento: Joi.string().required(),
     endereco: Joi.string().required(),
     localizacao: Joi.string().required(),
-    taxaEntrega: Joi.string(),
+    taxaEntrega: Joi.number().required(),
+    ativa: Joi.boolean().only().allow(true).default(true),
+})
+
+export const updateCompanySchema = Joi.object().keys({
+    logo: Joi.string().allow(null),
+    cpfCnpj: Joi.alternatives().try(
+        Joi.string().length(14).required(),
+        Joi.string().length(11).required()
+    ),
+    razaoSocial: Joi.string().required(),
+    nomeFantasia: Joi.string(),
+    telefone: Joi.string().regex(/^(?:[1-9]{2}9\d{8}|[1-9]{2}[2-9]\d{7})$/).required(),
+    horarioFuncionamento: Joi.string().required(),
+    endereco: Joi.string().required(),
+    localizacao: Joi.string().required(),
+    taxaEntrega: Joi.number().required(),
     ativa: Joi.boolean().required(),
 })

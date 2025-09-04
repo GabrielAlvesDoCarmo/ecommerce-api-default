@@ -23,7 +23,7 @@ export class CompaniesController {
     ) {
         await new CompaniesServices().save(req.body as Company)
         res.status(201).send({
-            message: "Empresa criado com sucesso"
+            message: "Empresa criada com sucesso"
         })
     }
 

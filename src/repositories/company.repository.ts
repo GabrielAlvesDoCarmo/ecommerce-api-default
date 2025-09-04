@@ -34,7 +34,7 @@ export class CompanyRepository {
     }
 
     async save(company: Company) {
-        await this.collection.doc(company.id).set(company)
+        await this.collection.add(company)
     }
 
     async update(id: string, company: Company) {
