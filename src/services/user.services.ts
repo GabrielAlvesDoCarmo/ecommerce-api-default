@@ -39,10 +39,12 @@ export class UserServices {
         }
         userResponse.name = user.name
         userResponse.email = user.email
-        return this.userRepository.update(id, userResponse)
+        await this.authService.update(id, user)
+        await this.userRepository.update(id, userResponse)
     }
 
     async delete(id: string) {
-        return this.userRepository.delete(id)
+        await this.authService.delete(id)
+        await this.userRepository.delete(id)
     }
 }

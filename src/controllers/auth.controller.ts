@@ -15,7 +15,16 @@ export class AuthController {
         })
     }
 
-    static async logout(req: express.Request, res: express.Response){
+    static async recovery(
+        req: express.Request,
+        res: express.Response
+    ) {
+        const {email} = req.body
+        await new AuthService().recovery(email)
+        res.status(204).end()
+    }
+
+    static async logout(req: express.Request, res: express.Response) {
         await new AuthService().logout()
         res.status(204).end()
     }

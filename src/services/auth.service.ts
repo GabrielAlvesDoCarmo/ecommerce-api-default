@@ -1,7 +1,7 @@
 import {User} from "../models/user.model";
-import {FirebaseAuthError, getAuth, UserRecord} from "firebase-admin/auth";
+import {FirebaseAuthError, getAuth, UpdateRequest, UserRecord} from "firebase-admin/auth";
 import {EmailAlreadyExistsError} from "../errors/email-already-exists.error";
-import {signInWithEmailAndPassword, getAuth as getFirebaseAuth, UserCredential, signOut} from "firebase/auth"
+import {signInWithEmailAndPassword, getAuth as getFirebaseAuth, UserCredential, signOut, sendPasswordResetEmail} from "firebase/auth"
 import {UnauthorizedError} from "../errors/unauthorizedError";
 import {FirebaseError} from "firebase/app"
 
@@ -25,6 +25,18 @@ export class AuthService {
         }
     }
 
+    async update(id: string, user: User){
+        const props: UpdateRequest = {
+            displayName: user.name,
+            email: user.email,
+            photoURL: user.imageProfile,
+        }
+        if (user.password){
+            props.password = user.password
+        }
+        await getAuth().updateUser(id, props)
+    }
+
     async login(email: string, password: string): Promise<UserCredential> {
         return await signInWithEmailAndPassword(getFirebaseAuth(), email, password).catch(err => {
             if (err instanceof FirebaseError && err.code ==="auth/invalid-credential"){
@@ -32,6 +44,14 @@ export class AuthService {
             }
             throw err
         });
+    }
+
+    async recovery(email: string){
+        await sendPasswordResetEmail(getFirebaseAuth(), email)
+    }
+
+    async delete(id: string){
+        await getAuth().deleteUser(id)
     }
 
     async logout() {
