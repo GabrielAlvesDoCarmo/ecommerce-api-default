@@ -14,3 +14,8 @@ export const userSchema = Joi.object().keys({
     password: Joi.string().min(8).alphanum().required(),
     imageProfile: Joi.string(),
 })
+
+export const authLoginSchema = Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(8).alphanum().required(),
+})
