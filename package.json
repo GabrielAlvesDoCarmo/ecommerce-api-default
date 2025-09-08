@@ -2,7 +2,11 @@
   "name": "ecommerce-api-default",
   "version": "1.0.0",
   "description": "Api base de um ecommerce",
-  "main": "index.js",
+  "exports": "./lib/index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc-watch --onSuccess \"node --env-file=.env ./lib/index.js\""
@@ -14,11 +18,12 @@
     "celebrate": "^15.0.3",
     "express": "^5.1.0",
     "express-async-handler": "^1.2.0",
+    "file-type": "^21.0.0",
     "firebase": "^12.2.1",
     "firebase-admin": "^13.5.0"
   },
   "devDependencies": {
-    "@tsconfig/recommended": "^1.0.10",
+    "@tsconfig/node20": "^20.1.6",
     "@types/express": "^5.0.3",
     "@types/node": "^24.3.0",
     "tsc-watch": "^7.1.1",

@@ -1,8 +1,8 @@
 import express from "express";
 import asyncHandler from 'express-async-handler'
 import {celebrate, Segments} from "celebrate";
-import {CompaniesController} from "../controllers/companies.controller";
-import {newCompanySchema, updateCompanySchema} from "../models/company.model";
+import {CompaniesController} from "../controllers/companies.controller.js";
+import {newCompanySchema, updateCompanySchema} from "../models/company.model.js";
 
 export const companiesRoutes = express.Router()
 

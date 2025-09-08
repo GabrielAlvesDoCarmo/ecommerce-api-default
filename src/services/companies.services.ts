@@ -1,12 +1,15 @@
-import {NotFoundError} from "../errors/not-found.error";
-import {Company} from "../models/company.model";
-import {CompanyRepository} from "../repositories/company.repository";
+import {NotFoundError} from "../errors/not-found.error.js";
+import {Company} from "../models/company.model.js";
+import {CompanyRepository} from "../repositories/company.repository.js";
+import {UploadFileService} from "./upload-file.service.js";
 
 export class CompaniesServices {
     private companyRepository: CompanyRepository
+    private uploadFileService: UploadFileService;
 
     constructor() {
         this.companyRepository = new CompanyRepository()
+        this.uploadFileService = new UploadFileService("images/companies/")
     }
 
     async getAll(): Promise<Company[]> {
@@ -23,7 +26,8 @@ export class CompaniesServices {
     }
 
     async save(company: Company) {
-        return this.companyRepository.save(company)
+        company.logo = await this.uploadFileService.uploadFile(company.logo)
+        await this.companyRepository.save(company)
     }
 
     async update(id: string, company: Company) {

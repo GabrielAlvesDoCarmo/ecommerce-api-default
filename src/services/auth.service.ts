@@ -1,8 +1,8 @@
-import {User} from "../models/user.model";
+import {User} from "../models/user.model.js";
 import {FirebaseAuthError, getAuth, UpdateRequest, UserRecord} from "firebase-admin/auth";
-import {EmailAlreadyExistsError} from "../errors/email-already-exists.error";
+import {EmailAlreadyExistsError} from "../errors/email-already-exists.error.js";
 import {signInWithEmailAndPassword, getAuth as getFirebaseAuth, UserCredential, signOut, sendPasswordResetEmail} from "firebase/auth"
-import {UnauthorizedError} from "../errors/unauthorizedError";
+import {UnauthorizedError} from "../errors/unauthorizedError.js";
 import {FirebaseError} from "firebase/app"
 
 export class AuthService {

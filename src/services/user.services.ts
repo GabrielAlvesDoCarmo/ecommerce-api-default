@@ -1,7 +1,7 @@
-import {User} from "../models/user.model";
-import {UserRepository} from "../repositories/user.repository";
-import {NotFoundError} from "../errors/not-found.error";
-import {AuthService} from "./auth.service";
+import {User} from "../models/user.model.js";
+import {UserRepository} from "../repositories/user.repository.js";
+import {NotFoundError} from "../errors/not-found.error.js";
+import {AuthService} from "./auth.service.js";
 
 export class UserServices {
     // aqui fica a regra de negocio e lanca a exceção o repository so comunica

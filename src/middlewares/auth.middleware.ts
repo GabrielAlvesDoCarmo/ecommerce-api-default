@@ -1,8 +1,8 @@
 import express from "express";
-import { UnauthorizedError } from "../errors/unauthorizedError";
+import { UnauthorizedError } from "../errors/unauthorizedError.js";
 import {DecodedIdToken, getAuth} from "firebase-admin/auth";
-import { UserServices } from "../services/user.services";
-import { ForbiddenError } from "../errors/forbidden.error";
+import { UserServices } from "../services/user.services.js";
+import { ForbiddenError } from "../errors/forbidden.error.js";
 
 export const auth = (app: express.Express) => {
     const publicRoutes = ["/auth/login", "/auth/logout", "/auth/recovery"]
