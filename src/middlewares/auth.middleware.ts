@@ -5,7 +5,7 @@ import { UserServices } from "../services/user.services.js";
 import { ForbiddenError } from "../errors/forbidden.error.js";
 
 export const auth = (app: express.Express) => {
-    const publicRoutes = ["/auth/login", "/auth/logout", "/auth/recovery"]
+    const publicRoutes = ["/auth/login", "/auth/logout", "/auth/recovery", "/users"]
     app.use(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         const isPublicRoute = req.method === "POST" && publicRoutes.some(route =>req.path.startsWith(route))
         if (isPublicRoute) return next()
