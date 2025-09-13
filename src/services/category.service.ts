@@ -8,7 +8,7 @@ export class CategoryService{
         this.repository = new CategoryRepository()
     }
     async getAll(): Promise<CategoryModel[]>{
-        return this.repository.getAll()
+        return await this.repository.getAll()
     }
 
     async getByID(id: string): Promise<CategoryModel> {
