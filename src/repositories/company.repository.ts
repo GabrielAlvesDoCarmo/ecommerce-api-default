@@ -1,7 +1,6 @@
 import {getFirestore} from "firebase-admin/firestore";
-import {firestore} from "firebase-admin";
 import {Company} from "../models/company.model.js";
-import CollectionReference = firestore.CollectionReference;
+import {CollectionReference} from "firebase-admin/firestore";
 
 export class CompanyRepository {
     private collection: CollectionReference

@@ -1,7 +1,5 @@
-import {getFirestore} from "firebase-admin/firestore";
+import {CollectionReference, getFirestore} from "firebase-admin/firestore";
 import {User} from "../models/user.model.js";
-import {firestore} from "firebase-admin";
-import CollectionReference = firestore.CollectionReference;
 import {getAuth} from "firebase-admin/auth";
 
 export class UserRepository {

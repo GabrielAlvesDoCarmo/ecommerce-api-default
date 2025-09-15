@@ -17,7 +17,11 @@ export class ProductService {
     }
 
     async getAll(): Promise<Product[]> {
-        return this.repository.getAll()
+        return await this.repository.getAll()
+    }
+
+    async search(categoryID: string){
+        return await this.repository.search(categoryID)
     }
 
     async getByID(id: string): Promise<Product> {

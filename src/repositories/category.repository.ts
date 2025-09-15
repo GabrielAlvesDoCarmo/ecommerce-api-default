@@ -1,7 +1,6 @@
 import {CategoryModel} from "../models/category.model.js";
-import {firestore} from "firebase-admin";
-import CollectionReference = firestore.CollectionReference;
 import {getFirestore} from "firebase-admin/firestore";
+import {CollectionReference} from "firebase-admin/firestore";
 
 export class CategoryRepository{
     private collection: CollectionReference
