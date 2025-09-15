@@ -51,4 +51,8 @@ export class ProductRepository {
         await this.collection.doc(id).delete()
     }
 
+    async getCountByCategory(categoryID:string) : Promise<number>{
+        const snapshot = await this.collection.where("category.id", "==", categoryID).count().get()
+       return snapshot.data().count
+    }
 }

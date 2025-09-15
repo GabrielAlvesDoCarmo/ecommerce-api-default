@@ -1,11 +1,15 @@
 import {CategoryRepository} from "../repositories/category.repository.js";
 import {NotFoundError} from "../errors/not-found.error.js";
 import {CategoryModel} from "../models/category.model.js";
+import {ProductRepository} from "../repositories/product.repository.js";
+import {ValidationError} from "../errors/validation.error.js";
 
 export class CategoryService{
     private repository: CategoryRepository
+    private productRepository: ProductRepository
     constructor() {
         this.repository = new CategoryRepository()
+        this.productRepository = new ProductRepository()
     }
     async getAll(): Promise<CategoryModel[]>{
         return await this.repository.getAll()
@@ -39,7 +43,13 @@ export class CategoryService{
         if (!categoryResponse){
             throw new NotFoundError("Categoria não encontrada")
         }
+        const productsCount = await this.productRepository.getCountByCategory(id)
+        if (productsCount !== 0){
+            throw new ValidationError("Nao e possivel excluir categoria com produto cadastrado")
+        }
         await this.repository.delete(id)
     }
+
+
 
 }
