@@ -22,7 +22,6 @@ export class CompanyRepository {
     async getByID(id: string): Promise<Company | null> {
         const doc = await this.collection.doc(id).get()
         if (doc.exists) {
-            // @ts-ignore
             return {
                 id: doc.id,
                 ...doc.data()

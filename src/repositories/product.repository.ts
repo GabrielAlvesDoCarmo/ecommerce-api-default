@@ -26,9 +26,13 @@ export class ProductRepository {
         })
     }
 
-    async getByID(id: string): Promise<Product> {
+    async getByID(id: string): Promise<Product | null> {
         const doc = await this.collection.doc(id).get()
-        return {id: doc.id, ...doc.data()} as Product
+        if (doc.exists){
+            return {id: doc.id, ...doc.data()} as Product
+        } else {
+            return null
+        }
     }
 
     async save(product: Product) {
