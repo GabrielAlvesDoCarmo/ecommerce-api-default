@@ -1,6 +1,8 @@
 import {Joi} from "celebrate";
+import {firestore} from "firebase-admin";
+import FirestoreDataConverter = firestore.FirestoreDataConverter;
 
-export type Company = {
+export class Company {
     id: string
     logo: string
     cpfCnpj: string
@@ -12,6 +14,20 @@ export type Company = {
     localizacao: string
     taxaEntrega: string
     ativa: boolean
+
+    constructor(data: Company | any) {
+        this.id = data.id;
+        this.logo = data.logo
+        this.cpfCnpj = data.cpfCnpj
+        this.razaoSocial = data.razaoSocial
+        this.nomeFantasia = data.nomeFantasia
+        this.telefone = data.telefone
+        this.horarioFuncionamento = data.horarioFuncionamento
+        this.endereco = data.endereco
+        this.localizacao = data.localizacao
+        this.taxaEntrega = data.taxaEntrega
+        this.ativa = data.ativa ?? true
+    }
 }
 
 export const newCompanySchema = Joi.object().keys({
@@ -48,3 +64,17 @@ export const updateCompanySchema = Joi.object().keys({
     taxaEntrega: Joi.number().required(),
     ativa: Joi.boolean().required(),
 })
+
+export const companyConverter: FirestoreDataConverter<Company> = {
+    toFirestore(company: Company): firestore.DocumentData {
+        const {id, ...data} = company
+        return data
+    },
+    fromFirestore(snapshot: firestore.QueryDocumentSnapshot): Company {
+        return new Company({
+            id: snapshot.id,
+            ...snapshot.data()
+        })
+    }
+
+}

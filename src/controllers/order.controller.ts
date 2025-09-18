@@ -1,6 +1,7 @@
 import express from "express";
 import {OrderService} from "../services/order.service.js";
 import {Order} from "../models/order.model.js";
+import {QueryParamsOrder} from "../models/order.model.js";
 
 export class OrderController {
     static async save(req: express.Request, res: express.Response) {
@@ -9,4 +10,15 @@ export class OrderController {
             message: "Pedido criado com sucesso"
         })
     }
+
+    static async search(req: express.Request, res: express.Response) {
+        const orders = await new OrderService().search(req.query as QueryParamsOrder)
+        res.status(200).send(orders)
+    }
+
+    static async getAll(req: express.Request, res: express.Response) {
+        res.status(200).send(await new OrderService().getAll())
+    }
+
+
 }
