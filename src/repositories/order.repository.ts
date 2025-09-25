@@ -1,19 +1,50 @@
 import {getFirestore} from "firebase-admin/firestore";
 import {CollectionReference} from "firebase-admin/firestore";
-import {Order, QueryParamsOrder} from "../models/order.model.js";
+import {Order, orderConverter, QueryParamsOrder} from "../models/order.model.js";
 import dayjs from "dayjs";
+import {orderItemConverter} from "../models/order-item.model.js";
+
 export class OrderRepository {
-    private collection: CollectionReference
+    private collection: CollectionReference<Order>
     constructor() {
-        this.collection = getFirestore().collection("orders")
+        this.collection = getFirestore().collection("orders").withConverter(orderConverter)
     }
 
     async save(order: Order){
-        await this.collection.add(order)
+        const batch = getFirestore().batch()
+
+        const orderRef = this.collection.doc()
+        batch.create(orderRef,order)
+
+        const itemRef = orderRef.collection("items").withConverter(orderItemConverter)
+        for (let item of order.items!){
+            batch.create(itemRef.doc(),item)
+        }
+
+
+
+        await batch.commit()
+
+
+
+
+
+
+
+
+
+
+
+        /* const orderRef = await this.collection.add(order)
+        for (let item of order.items){
+            await orderRef.collection("items").withConverter(orderItemConverter).add(item)
+        }*/
+
+
     }
 
     async search(queryParams: QueryParamsOrder){
-        let query: FirebaseFirestore.Query = this.collection;
+        let query: FirebaseFirestore.Query<Order> = this.collection;
         if (queryParams.companyId) {
            query = query.where("company.id", "==", queryParams.companyId)
         }
@@ -33,11 +64,6 @@ export class OrderRepository {
         }
 
         const snapshot = await query.get()
-        return snapshot.docs.map(doc => {
-            return new Order({
-                id: doc.id,
-                ...doc.data()
-            })
-        })
+        return snapshot.docs.map(doc => doc.data())
     }
 }

@@ -29,7 +29,7 @@ export class PaymentMethodService{
         if (!paymentMethodResponse) {
             throw new NotFoundError("Método de pagamento não encontrado")
         }
-        await this.repository.update(id, paymentMethod)
+        await this.repository.update(paymentMethod)
     }
 
     async delete(id: string) {

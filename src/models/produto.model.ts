@@ -1,14 +1,26 @@
 import {CategoryModel} from "./category.model.js";
 import {Joi} from "celebrate";
+import {firestore} from "firebase-admin";
+import FirestoreDataConverter = firestore.FirestoreDataConverter;
 
-export type Product = {
-    id: string,
-    name: string,
-    description: string,
-    price: string,
-    img: string,
-    category: CategoryModel,
+export class Product {
+    id: string
+    name: string
+    description: string
+    price: number
+    img: string
+    category: CategoryModel
     active: boolean
+
+    constructor(data: Product | any) {
+        this.id = data.id
+        this.name = data.name
+        this.description = data.description
+        this.price = data.price
+        this.img = data.img
+        this.category = new CategoryModel(data.category)
+        this.active = data.active ?? true
+    }
 }
 
 export const newProductSchema = Joi.object().keys({
@@ -39,3 +51,17 @@ export const updateProductSchema = Joi.object().keys({
 export const searchQuerySchema = Joi.object().keys({
     categoryId: Joi.string().required()
 })
+
+export const productConverter: FirestoreDataConverter<Product> = {
+    toFirestore(product: Product): firestore.DocumentData {
+        const {id, ...data} = product
+        return data
+    },
+
+    fromFirestore(snapshot: firestore.QueryDocumentSnapshot): Product {
+        return new Product({
+            id: snapshot.id,
+            ...snapshot.data()
+        })
+    }
+}

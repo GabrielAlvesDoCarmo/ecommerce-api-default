@@ -35,7 +35,7 @@ export class CategoryService{
         categoryResponse.name = category.name
         categoryResponse.description = category.description
         categoryResponse.active = category.active
-        await this.repository.update(id, categoryResponse)
+        await this.repository.update(categoryResponse)
     }
 
     async delete(id: string) {

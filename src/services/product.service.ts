@@ -55,7 +55,7 @@ export class ProductService {
         productResponse.img = product.img
         productResponse.price = product.price
         productResponse.active = product.active
-        await this.repository.update(id, productResponse)
+        await this.repository.update(productResponse)
     }
 
     async delete(id: string) {

@@ -1,41 +1,33 @@
-import {CategoryModel} from "../models/category.model.js";
+import {CategoryModel, categoryConverter} from "../models/category.model.js";
 import {getFirestore} from "firebase-admin/firestore";
 import {CollectionReference} from "firebase-admin/firestore";
 
 export class CategoryRepository{
-    private collection: CollectionReference
+    private collection: CollectionReference<CategoryModel>
     constructor() {
-        this.collection = getFirestore().collection("categories")
+        this.collection = getFirestore().collection("categories").withConverter(categoryConverter)
     }
     async getAll(): Promise<CategoryModel[]>{
         const categoriesDoc = await this.collection.get()
-        return categoriesDoc.docs.map(doc => doc.data() as CategoryModel)
+        return categoriesDoc.docs.map(doc => doc.data())
     }
 
-    async getByID(id: string): Promise<CategoryModel> {
-        const categoryRef = this.collection.doc(id)
-        const categoryDoc = await categoryRef.get()
-        return categoryDoc.data() as CategoryModel
+    async getByID(id: string): Promise<CategoryModel | null> {
+        const doc = await this.collection.doc(id).get()
+        return doc.data() ?? null
     }
 
     async save(category: CategoryModel) {
-        const categoryRef = this.collection.doc()
-        category.id = categoryRef.id
-        await categoryRef.set(category)
+       await this.collection.add(category)
     }
 
-    async update(id: string, category: CategoryModel) {
-        const categoryRef = this.collection.doc(id)
-        await categoryRef.update({
-            name: category.name,
-            description: category.description,
-            active: category.active
-        })
+    async update(category: CategoryModel) {
+        await this.collection.doc(category.id).set(category)
+
     }
 
     async delete(id: string) {
-        const categoryRef = this.collection.doc(id)
-        await categoryRef.delete()
+        await this.collection.doc(id).delete()
     }
 
 }

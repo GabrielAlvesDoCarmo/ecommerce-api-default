@@ -1,13 +1,13 @@
-import {getFirestore} from "firebase-admin/firestore";
-import {Product} from "../models/produto.model.js";
+import {CollectionReference, getFirestore} from "firebase-admin/firestore";
+import {Product, productConverter} from "../models/produto.model.js";
 import {QuerySnapshot} from "firebase-admin/firestore";
 
 
 export class ProductRepository {
-    private collection
+    private collection: CollectionReference<Product>
 
     constructor() {
-        this.collection = getFirestore().collection("products")
+        this.collection = getFirestore().collection("products").withConverter(productConverter)
     }
 
     async getAll(): Promise<Product[]> {
@@ -28,27 +28,15 @@ export class ProductRepository {
 
     async getByID(id: string): Promise<Product | null> {
         const doc = await this.collection.doc(id).get()
-        if (doc.exists){
-            return {id: doc.id, ...doc.data()} as Product
-        } else {
-            return null
-        }
+        return doc.data() ?? null
     }
 
     async save(product: Product) {
         await this.collection.add(product)
     }
 
-    async update(id: string, product: Product) {
-        let docRef = this.collection.doc(id)
-        await docRef.set({
-            name: product.name,
-            price: product.price,
-            img: product.img,
-            category: product.category,
-            description: product.description,
-            active: product.active
-        })
+    async update(product: Product) {
+        await this.collection.doc(product.id).set(product)
     }
 
     async delete(id: string) {

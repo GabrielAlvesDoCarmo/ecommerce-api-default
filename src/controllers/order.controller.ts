@@ -5,7 +5,7 @@ import {QueryParamsOrder} from "../models/order.model.js";
 
 export class OrderController {
     static async save(req: express.Request, res: express.Response) {
-        await new OrderService().save(req.body as Order)
+        await new OrderService().save(new Order(req.body))
         res.status(201).send({
             message: "Pedido criado com sucesso"
         })
