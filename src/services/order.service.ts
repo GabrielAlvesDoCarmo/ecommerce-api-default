@@ -1,5 +1,5 @@
 import {OrderRepository} from "../repositories/order.repository.js"
-import {Order, QueryParamsOrder} from "../models/order.model.js";
+import {Order, OrderStatus, QueryParamsOrder} from "../models/order.model.js";
 import {CompanyRepository} from "../repositories/company.repository.js";
 import {ProductRepository} from "../repositories/product.repository.js";
 import {PaymentMethodsRepository} from "../repositories/payment-methods.repository.js";
@@ -54,5 +54,13 @@ export class OrderService {
 
     async getByID(id: string) : Promise<Order> {
         return await this.orderRepository.getByID(id)
+    }
+
+    async changeStatus(id: string, status: OrderStatus) {
+        const order = await this.orderRepository.getByID(id)
+        if (!order) {
+            throw new NotFoundError("Pedido não encontrado")
+        }
+        await this.orderRepository.changeStatus(id, status)
     }
 }

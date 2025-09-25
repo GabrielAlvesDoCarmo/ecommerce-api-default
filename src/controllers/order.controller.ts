@@ -25,4 +25,11 @@ export class OrderController {
         const order = await new OrderService().getByID(req.params.id)
         res.status(200).send(order)
     }
+
+    static async changeStatus(req: express.Request, res: express.Response) {
+        await new OrderService().changeStatus(req.params.id, req.body.status)
+        res.status(200).send({
+            message: "Status alterado com sucesso"
+        })
+    }
 }

@@ -10,7 +10,7 @@ export const errorHandler = (app: express.Express) => {
         if(err instanceof ErrorBase) {
             err.send(res)
         }else {
-            new InternalServerError()
+            new InternalServerError().send(res)
         }
     })
 }
