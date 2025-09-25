@@ -1,0 +1,33 @@
+import express from "express";
+import asyncHandler from 'express-async-handler'
+import {celebrate, Segments} from "celebrate";
+import {changeStatusSchema, newOrderSchema, searchQueryOrderSchema} from "../models/order.model";
+import {OrderController} from "../controllers/order.controller";
+
+export const ordersRoute = express.Router()
+
+ordersRoute.post(
+    "/orders",
+    celebrate({[Segments.BODY]: newOrderSchema}),
+    asyncHandler(OrderController.save)
+)
+ordersRoute.get(
+    "/orders",
+    celebrate({[Segments.QUERY]: searchQueryOrderSchema}),
+    asyncHandler(OrderController.search)
+)
+ordersRoute.get(
+    "/orders/:id/items",
+    asyncHandler(OrderController.getItems)
+)
+
+ordersRoute.get(
+    "/orders/:id",
+    asyncHandler(OrderController.getByID)
+)
+
+ordersRoute.post(
+    "/orders/:id/status",
+    celebrate({[Segments.BODY]: changeStatusSchema}),
+    asyncHandler(OrderController.changeStatus)
+)
