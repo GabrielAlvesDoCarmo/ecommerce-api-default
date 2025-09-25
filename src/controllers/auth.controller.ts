@@ -29,4 +29,12 @@ export class AuthController {
         res.status(204).end()
     }
 
+    static async anonymous(req: express.Request, res: express.Response) {
+        const userCredential = await new AuthService().anonymous()
+        const token = await userCredential.user.getIdToken(true)
+        res.status(200).send({
+            message: "Login Anonimo realizado com sucesso",
+            token: token,
+        })
+    }
 }
