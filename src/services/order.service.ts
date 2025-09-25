@@ -6,6 +6,7 @@ import {PaymentMethodsRepository} from "../repositories/payment-methods.reposito
 import {Company} from "../models/company.model.js";
 import {PaymentMethod} from "../models/payment-method.model.js";
 import {NotFoundError} from "../errors/not-found.error.js";
+import {OrderItem} from "../models/order-item.model.js";
 
 export class OrderService {
     private orderRepository: OrderRepository
@@ -47,7 +48,7 @@ export class OrderService {
         return await this.orderRepository.search(query)
     }
 
-
-    async getAll() {
+    async getItems(pedidoId: string): Promise<OrderItem[]> {
+       return await this.orderRepository.getItems(pedidoId)
     }
 }

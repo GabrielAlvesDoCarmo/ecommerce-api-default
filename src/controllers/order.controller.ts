@@ -16,9 +16,8 @@ export class OrderController {
         res.status(200).send(orders)
     }
 
-    static async getAll(req: express.Request, res: express.Response) {
-        res.status(200).send(await new OrderService().getAll())
+    static async getItems(req: express.Request, res: express.Response) {
+        const items = await new OrderService().getItems(req.params.id)
+        res.status(200).send(items)
     }
-
-
 }

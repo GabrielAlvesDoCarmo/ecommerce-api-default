@@ -2,7 +2,7 @@ import {getFirestore} from "firebase-admin/firestore";
 import {CollectionReference} from "firebase-admin/firestore";
 import {Order, orderConverter, QueryParamsOrder} from "../models/order.model.js";
 import dayjs from "dayjs";
-import {orderItemConverter} from "../models/order-item.model.js";
+import {OrderItem, orderItemConverter} from "../models/order-item.model.js";
 
 export class OrderRepository {
     private collection: CollectionReference<Order>
@@ -20,27 +20,7 @@ export class OrderRepository {
         for (let item of order.items!){
             batch.create(itemRef.doc(),item)
         }
-
-
-
         await batch.commit()
-
-
-
-
-
-
-
-
-
-
-
-        /* const orderRef = await this.collection.add(order)
-        for (let item of order.items){
-            await orderRef.collection("items").withConverter(orderItemConverter).add(item)
-        }*/
-
-
     }
 
     async search(queryParams: QueryParamsOrder){
@@ -65,5 +45,18 @@ export class OrderRepository {
 
         const snapshot = await query.get()
         return snapshot.docs.map(doc => doc.data())
+    }
+
+    async getItems(pedidoId: string): Promise<OrderItem[]> {
+        const pedidoRef = this.collection.doc(pedidoId)
+        const snapshot = await pedidoRef.collection("items").withConverter(orderItemConverter).get()
+        console.log("Repository -------------- ")
+
+        console.log(snapshot.docs.map(doc => doc.data()))
+
+        console.log("Repository -------------- ")
+
+        return snapshot.docs.map(doc => doc.data())
+
     }
 }
