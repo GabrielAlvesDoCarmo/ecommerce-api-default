@@ -6,9 +6,11 @@ import {categoryRouter} from "./category.route.js";
 import {productRoute} from "./product.route.js";
 import {paymentMethodRoutes} from "./payment-method.route.js";
 import {ordersRoute} from "./orders.route.js";
+import {allowAnonymousUser} from "../middlewares/allow-anonymous-user.middleware.js";
 
 export const router = (app: express.Express) => {
     app.use(express.json({limit: "5mb"}));
+    app.use(allowAnonymousUser)
     app.use(authRouter)
     app.use(userRouter)
     app.use(companiesRoutes)
