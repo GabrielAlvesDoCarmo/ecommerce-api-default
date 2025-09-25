@@ -20,3 +20,8 @@ ordersRoute.get(
     "/orders/:id/items",
     asyncHandler(OrderController.getItems)
 )
+
+ordersRoute.get(
+    "/orders/:id",
+    asyncHandler(OrderController.getByID)
+)

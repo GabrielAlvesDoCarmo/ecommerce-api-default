@@ -50,13 +50,16 @@ export class OrderRepository {
     async getItems(pedidoId: string): Promise<OrderItem[]> {
         const pedidoRef = this.collection.doc(pedidoId)
         const snapshot = await pedidoRef.collection("items").withConverter(orderItemConverter).get()
-        console.log("Repository -------------- ")
-
-        console.log(snapshot.docs.map(doc => doc.data()))
-
-        console.log("Repository -------------- ")
-
         return snapshot.docs.map(doc => doc.data())
 
+    }
+
+    async getByID(id: string) : Promise<Order> {
+        const order =  (await this.collection.doc(id).get()).data()
+         if (!order) {
+             throw new Error("Pedido não encontrado")
+         }
+         order.items = await this.getItems(id)
+        return order
     }
 }
