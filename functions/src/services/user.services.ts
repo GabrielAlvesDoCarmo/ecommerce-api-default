@@ -22,7 +22,6 @@ export class UserServices {
         if (!user) {
             throw new NotFoundError("Usuario não encontrado")
         }
-        // @ts-ignore
         return user
     }
 

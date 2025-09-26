@@ -34,7 +34,7 @@ export class OrderService {
         }
         order.paymentMethod = paymentResponse
 
-        for (let item of order.items!) {
+        for (const item of order.items!) {
             const productResponse = await this.productRepository.getByID(item.product.id)
             if (!productResponse) {
                 throw new NotFoundError("Produto não encontrado")

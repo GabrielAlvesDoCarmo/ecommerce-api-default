@@ -2,6 +2,6 @@
 /lib
 /node_modules
 firebase-admin-sdk.json
-.env
+functions/.env
 apiTest/user_test.http
 /apiTest

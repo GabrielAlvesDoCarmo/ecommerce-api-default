@@ -5,6 +5,7 @@ import {ErrorBase} from "../errors/base.error";
 
 export const errorHandler = (app: express.Express) => {
     app.use(errors())
+     
     app.use((err: Error, req: express.Request, res: express.Response,next: NextFunction) => {
         console.log(err)
         if(err instanceof ErrorBase) {

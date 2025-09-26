@@ -43,7 +43,7 @@ export const authRecoverySchema = Joi.object().keys({
 
 export const userConverter: FirestoreDataConverter<User> = {
     toFirestore(user: User): firestore.DocumentData {
-        const {id,password, ...data} = user
+        const {id, password, ...data} = user
         return data
     },
 

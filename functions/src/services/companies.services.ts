@@ -22,7 +22,6 @@ export class CompaniesServices {
         if (!user) {
             throw new NotFoundError("Empresa não encontrada")
         }
-        // @ts-ignore
         return user
     }
 
