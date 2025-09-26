@@ -8,11 +8,11 @@
     "build": "tsc",
     "build:watch": "tsc --watch",
     "start": "firebase emulators:start --only functions",
-    "deploy": "firebase deploy --only functions",
+    "deploy": "npm run lint && npm run build && firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "22"
+    "node": "20"
   },
   "dependencies": {
     "celebrate": "^15.0.3",

@@ -18,11 +18,11 @@ export class CompaniesServices {
     }
 
     async getByID(id: string): Promise<Company> {
-        const user = this.companyRepository.getByID(id)
-        if (!user) {
+        const company = await this.companyRepository.getByID(id)
+        if (!company) {
             throw new NotFoundError("Empresa não encontrada")
         }
-        return user
+        return company
     }
 
     async save(company: Company) {

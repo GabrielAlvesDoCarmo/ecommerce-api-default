@@ -18,7 +18,7 @@ export class UserServices {
     }
 
     async getByID(id: string): Promise<User> {
-        const user = this.userRepository.getByID(id)
+        const user = await this.userRepository.getByID(id)
         if (!user) {
             throw new NotFoundError("Usuario não encontrado")
         }
@@ -26,14 +26,14 @@ export class UserServices {
     }
 
     async save(user: User) {
-        const userAuth =await this.authService.create(user)
+        const userAuth = await this.authService.create(user)
         user.id = userAuth.uid
         return this.userRepository.save(user)
     }
 
     async update(id: string, user: User) {
-        const userResponse =  await this.userRepository.getByID(id)
-        if (!userResponse){
+        const userResponse = await this.userRepository.getByID(id)
+        if (!userResponse) {
             throw new NotFoundError("Usuario não encontrado")
         }
         userResponse.name = user.name

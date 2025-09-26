@@ -5,7 +5,7 @@ import {router} from "./routes";
 import {errorHandler} from "./middlewares/error-handler.middleware";
 import {pageNotFoundHandler} from "./middlewares/page-not-ffound.middleware";
 import {auth} from "./middlewares/auth.middleware";
-import {onRequest} from "firebase-functions/v1/https";
+import {onRequest} from "firebase-functions/v2/https";
 
 
 firebase.initializeApp();
